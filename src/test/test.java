@@ -128,3 +128,65 @@ class ReturnBookTest {
         assertFalse(library.returnBook(book1, student1), "The student has returned the book twice");
     }
 }
+
+
+class BookSearchTest {
+
+    @Test
+    void searchByName() {
+        Library library = new Library();
+
+        Book book1 = new Book("Book-1", "Author-1", 10);
+        Book book2 = new Book("Book-2", "Author-2", 11);
+        Book book3 = new Book("Book-3", "Author-3", 12);
+        Book book4 = new Book("Book-4", "Author-1", 13);
+
+        library.addBook(book1);
+        library.addBook(book2);
+        library.addBook(book3);
+        library.addBook(book4);
+
+        var keys = new ArrayList<Object>(Arrays.asList("Book-3", "Book-2"));
+        assertNull(library.searchBooks(SearchByType.NAME, keys)); // Should return null
+    }
+
+    @Test
+    void searchByID() {
+        Library library = new Library();
+
+        Book book1 = new Book("Book-1", "Author-1", 10);
+        Book book2 = new Book("Book-2", "Author-2", 11);
+        Book book3 = new Book("Book-3", "Author-3", 12);
+        Book book4 = new Book("Book-4", "Author-1", 13);
+
+        library.addBook(book1);
+        library.addBook(book2);
+        library.addBook(book3);
+        library.addBook(book4);
+
+        var keys = new ArrayList<Object>(Arrays.asList(10, 11));
+        ArrayList<Book> search_results = library.searchBooks(SearchByType.ID, keys); // Should return [book1, book2]
+
+        ArrayList<Book> correct_results = new ArrayList<>();
+        correct_results.add(book1);
+        correct_results.add(book2);
+        library.searchBooks(SearchByType.NAME, keys); // Should return null
+
+        boolean isEqual = true;
+
+        if (correct_results.size() == search_results.size()) {
+            for (int i = 0; i < correct_results.size(); i++) {
+                if (correct_results.get(i).getTitle() != search_results.get(i).getTitle() ||
+                        correct_results.get(i).getAuthor() != search_results.get(i).getAuthor()) {
+                    isEqual = false;
+                    break;
+                }
+            }
+        } else {
+            isEqual = false;
+        }
+
+        assertTrue(isEqual);
+
+    }
+}
