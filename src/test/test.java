@@ -10,20 +10,57 @@ import main.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LendTest {
+
     @Test
-    void lendFailUnregisteredStudent() {
+    void lendSucceed() {
         Library library = new Library();
 
-        Book book1 = new Book("Book-1", "Author-1", 10);
+        Book book = new Book("registered-book", "Author", 1);
+        Student student = new Student("registered-student", 8);
 
-        Student student1 = new Student("Not-registered-student", 13);
+        library.addBook(book);
+        library.addStudent(student);
 
-        library.addBook(book1);
-        library.addStudent(student1);
+        assertTrue(library.lendBook(book, student));
+    }
 
+    @Test
+    void unregisteredBook() {
+        Library library = new Library();
 
-        boolean status = library.lendBook(book1, student1);
-        
+        Book book = new Book("unregistered-book", "Author", 4);
+        Student student = new Student("Not-registered-student", 2);
+
+        library.addStudent(student);
+
+        assertFalse(library.lendBook(book, student));
+    }
+
+    @Test
+    void unregisteredStudent() {
+        Library library = new Library();
+
+        Book book = new Book("registered-book", "Author", 3);
+        Student student = new Student("unregistered-student", 5);
+
+        library.addBook(book);
+
+        assertFalse(library.lendBook(book, student));
+    }
+
+    @Test
+    void alreadyLent() {
+        Library library = new Library();
+
+        Book book = new Book("registered-book", "Author", 10);
+        Student student = new Student("registered-student", 13);
+
+        library.addBook(book);
+        library.addBook(book);
+        library.addStudent(student);
+        library.lendBook(book, student);
+
+        assertFalse(library.lendBook(book, student));
     }
 }
 
@@ -67,7 +104,7 @@ class returnbook {
         assertFalse(library.returnBook(book1, student1), "student doesn't have this book");
     }
     @Test
-    void studentdoesnothavebook(){
+    void bookNotRegistered(){
         Library library = new Library();
         Book book1 = new Book("Book-1", "Author-1", 10);
         Book book2 = new Book("Book-2", "Author-2", 10);
