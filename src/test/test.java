@@ -113,4 +113,17 @@ class returnbook {
         library.addStudent(student1);
         assertFalse(library.returnBook(book2, student1), "the book doesn't registered");
     }
+    @Test
+    void returnagain(){
+        Library library = new Library();
+        Book book1 = new Book("Book-1", "Author-1", 10);
+
+        Student student1= new Student("registered-student", 13);
+        library.addBook(book1);
+        library.addStudent(student1);
+        library.lendBook(book1, student1);
+        library.returnBook(book2, student1)
+        library.lendBook(book2, student1);
+        assertTrue(library.returnBook(book2, student1), "the student return book sucessfull again");
+    }
 }
