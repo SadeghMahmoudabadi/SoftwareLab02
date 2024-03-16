@@ -81,6 +81,15 @@ public class Library {
      */
     public ArrayList<Student> searchStudents(SearchByType searchByType, ArrayList<Object> keys) {
         // TODO complete function
+        ArrayList<Student> matchedStudents = new ArrayList<>();
+        if (searchByType == SearchByType.NAME) {
+            for (Student student : this.students) {
+                if (keys.contains(student.getName())) {
+                    matchedStudents.add(student);
+                }
+            }
+            return matchedStudents;
+        }
         return null;
     }
 
