@@ -261,3 +261,103 @@ class BookSearchTest {
         assertTrue(isEqual);
     }
 }
+
+class StudentSearchTest {
+
+    @Test
+    void searchByTitle() {
+        Library library = new Library();
+
+        Student student1 = new Student("Alice", 10);
+        Student student2 = new Student("Bob", 11);
+        Student student3 = new Student("John", 12);
+
+        library.addStudent(student1);
+        library.addStudent(student2);
+        library.addStudent(student3);
+
+        var keys = new ArrayList<Object>(Arrays.asList("Alice", "Bob"));
+        assertNull(library.searchStudents(SearchByType.TITLE, keys)); // Should return null
+    }
+
+    @Test
+    void searchByAuthor() {
+        Library library = new Library();
+
+        Student student1 = new Student("Alice", 10);
+        Student student2 = new Student("Bob", 11);
+        Student student3 = new Student("John", 12);
+
+        library.addStudent(student1);
+        library.addStudent(student2);
+        library.addStudent(student3);
+
+        var keys = new ArrayList<Object>(Arrays.asList("Alice", "Bob"));
+        assertNull(library.searchStudents(SearchByType.AUTHOR, keys)); // Should return null
+    }
+
+    @Test
+    void searchByName() {
+        Library library = new Library();
+
+        Student student1 = new Student("Alice", 10);
+        Student student2 = new Student("Bob", 11);
+        Student student3 = new Student("John", 12);
+
+        library.addStudent(student1);
+        library.addStudent(student2);
+        library.addStudent(student3);
+
+        var keys = new ArrayList<Object>(Arrays.asList("Alice", "Bob"));
+        ArrayList<Student> search_results = library.searchStudents(SearchByType.NAME, keys); // Should return [student1, student2]
+
+        ArrayList<Student> correct_results = new ArrayList<>();
+        correct_results.add(student1);
+        correct_results.add(student2);
+
+        boolean isEqual = true;
+        if (search_results != null && search_results.size() == correct_results.size()) {
+            for (Student correct_result : correct_results) {
+                if (!search_results.contains(correct_result)) {
+                    isEqual = false;
+                    break;
+                }
+            }
+        } else {
+            isEqual = false;
+        }
+        assertTrue(isEqual);
+    }
+
+    @Test
+    void searchByID() {
+        Library library = new Library();
+
+        Student student1 = new Student("Alice", 10);
+        Student student2 = new Student("Bob", 11);
+        Student student3 = new Student("John", 12);
+
+        library.addStudent(student1);
+        library.addStudent(student2);
+        library.addStudent(student3);
+
+        var keys = new ArrayList<Object>(Arrays.asList(12, 13));
+        ArrayList<Student> search_results = library.searchStudents(SearchByType.ID, keys); // Should return [student3]
+
+        ArrayList<Student> correct_results = new ArrayList<>();
+        correct_results.add(student3);
+
+        boolean isEqual = true;
+        if (search_results != null && search_results.size() == correct_results.size()) {
+            for (Student correct_result : correct_results) {
+                if (!search_results.contains(correct_result)) {
+                    isEqual = false;
+                    break;
+                }
+            }
+        } else {
+            isEqual = false;
+        }
+        assertTrue(isEqual);
+    }
+}
