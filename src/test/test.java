@@ -111,6 +111,6 @@ class returnbook {
         Student student1= new Student("registered-student", 13);
         library.addBook(book1);
         library.addStudent(student1);
-        assertFalse(library.returnBook(book2, student1), "the student doesn't registered");
+        assertFalse(library.returnBook(book2, student1), "the book doesn't registered");
     }
 }
