@@ -170,14 +170,12 @@ class BookSearchTest {
         ArrayList<Book> correct_results = new ArrayList<>();
         correct_results.add(book1);
         correct_results.add(book2);
-        library.searchBooks(SearchByType.NAME, keys); // Should return null
 
         boolean isEqual = true;
 
-        if (correct_results.size() == search_results.size()) {
-            for (int i = 0; i < correct_results.size(); i++) {
-                if (correct_results.get(i).getTitle() != search_results.get(i).getTitle() ||
-                        correct_results.get(i).getAuthor() != search_results.get(i).getAuthor()) {
+        if (search_results != null && search_results.size() == correct_results.size()) {
+            for (Book correct_result : correct_results) {
+                if (!search_results.contains(correct_result)) {
                     isEqual = false;
                     break;
                 }
@@ -188,5 +186,78 @@ class BookSearchTest {
 
         assertTrue(isEqual);
 
+    }
+
+    @Test
+    void searchByTitle() {
+        Library library = new Library();
+
+        Book book1 = new Book("Book-1", "Author-1", 10);
+        Book book2 = new Book("Book-2", "Author-2", 11);
+        Book book3 = new Book("Book-3", "Author-3", 12);
+        Book book4 = new Book("Book-4", "Author-1", 13);
+
+        library.addBook(book1);
+        library.addBook(book2);
+        library.addBook(book3);
+        library.addBook(book4);
+
+        var keys = new ArrayList<Object>(Arrays.asList("Book-1", "Book-3"));
+        ArrayList<Book> search_results = library.searchBooks(SearchByType.TITLE, keys); // Should return [book1, book3]
+
+        ArrayList<Book> correct_results = new ArrayList<>();
+        correct_results.add(book1);
+        correct_results.add(book3);
+
+        boolean isEqual = true;
+
+        if (search_results != null && search_results.size() == correct_results.size()) {
+            for (Book correct_result : correct_results) {
+                if (!search_results.contains(correct_result)) {
+                    isEqual = false;
+                    break;
+                }
+            }
+        } else {
+            isEqual = false;
+        }
+        assertTrue(isEqual);
+
+    }
+
+    @Test
+    void searchByAuthor() {
+        Library library = new Library();
+
+        Book book1 = new Book("Book-1", "Author-1", 10);
+        Book book2 = new Book("Book-2", "Author-2", 11);
+        Book book3 = new Book("Book-3", "Author-3", 12);
+        Book book4 = new Book("Book-4", "Author-1", 13);
+        Book book5 = new Book("Not-owned-book", "Author-1", 15);
+
+        library.addBook(book1);
+        library.addBook(book2);
+        library.addBook(book3);
+        library.addBook(book4);
+
+        var keys = new ArrayList<Object>(Arrays.asList("Author-1", "Author-x"));
+        ArrayList<Book> search_results = library.searchBooks(SearchByType.AUTHOR, keys); // Should return [book1, book3]
+
+        ArrayList<Book> correct_results = new ArrayList<>();
+        correct_results.add(book1);
+        correct_results.add(book4);
+
+        boolean isEqual = true;
+        if (search_results != null && search_results.size() == correct_results.size()) {
+            for (Book correct_result : correct_results) {
+                if (!search_results.contains(correct_result)) {
+                    isEqual = false;
+                    break;
+                }
+            }
+        } else {
+            isEqual = false;
+        }
+        assertTrue(isEqual);
     }
 }
