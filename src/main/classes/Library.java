@@ -94,6 +94,22 @@ public class Library {
      */
     public ArrayList<Book> searchBooks(SearchByType searchByType, ArrayList<Object> keys) {
         // TODO complete function
+        ArrayList<Book> matchedBooks = new ArrayList<>();
+        if (searchByType == SearchByType.TITLE) {
+            for (Book book : this.books) {
+                if (keys.contains(book.getTitle())) {
+                    matchedBooks.add(book);
+                }
+            }
+            return matchedBooks;
+        } else if (searchByType == SearchByType.AUTHOR) {
+            for (Book book : this.books) {
+                if (keys.contains(book.getAuthor())) {
+                    matchedBooks.add(book);
+                }
+            }
+            return matchedBooks;
+        }
         return null;
     }
 
